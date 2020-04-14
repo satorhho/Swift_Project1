@@ -5,9 +5,18 @@
 //  Created by Lance Kent Briones on 4/7/20.
 //  Copyright © 2020 Lance Kent Briones. All rights reserved.
 //
-
 import SwiftUI
 
+struct RedText: ViewModifier {
+    func body(content: Content) -> some View {
+        content.foregroundColor(.red)
+    }
+}
+extension View {
+    func red_text() -> some View {
+        self.modifier(RedText())
+    }
+}
 struct ContentView: View {
     @State private var check_amount: String = ""
     @State private var number_of_people: Int = 0
@@ -49,7 +58,12 @@ struct ContentView: View {
                 }
                 
                 Section{
-                    Text("$\(self.shared_amount, specifier: "%.2f")")
+                   if percentages[tip_percentage] == 0 {
+                    Text("$\(self.shared_amount, specifier: "%.2f")").red_text()
+                    }
+                   else {
+                        (Text("$\(self.shared_amount, specifier: "%.2f")"))
+                    }
                 }
             }.navigationBarTitle(Text("WeSplit"), displayMode: .large)
         }
